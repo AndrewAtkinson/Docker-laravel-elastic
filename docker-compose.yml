@@ -1,0 +1,12 @@
+version: '3'
+services:
+  php:
+    build: ./php
+    volumes: 
+      - ./html:/var/www
+    ports: 
+      - 80:80
+  search:
+    build: ./elasticsearch
+    ports:
+      - 9200:9200
