@@ -1,5 +1,10 @@
 version: '3'
 services:
+  composer:
+    build: ./composer
+    command: update
+    volumes:
+      - ./html:/app
   php:
     build: ./php
     volumes: 
@@ -10,3 +15,13 @@ services:
     build: ./elasticsearch
     ports:
       - 9200:9200
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_DATABASE: docker
+    ports:
+      - 3306:3306
