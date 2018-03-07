@@ -1,5 +1,7 @@
 FROM php:apache
 
+RUN a2enmod rewrite
+
 WORKDIR /var/www/
 
 RUN apt-get update
@@ -18,8 +20,7 @@ RUN apt-get install -y \
         libicu-dev \
         curl \
         mysql-client \
-		git 
-
+		    git
 
 RUN docker-php-ext-configure gd --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu
 
@@ -35,9 +36,6 @@ RUN docker-php-ext-install gd
 
 
 ADD ./php.ini /usr/local/etc/php/php.ini
+ADD apache2.conf /etc/apache2/apache2.conf
 
-ENV APACHE_DOCUMENT_ROOT /var/www/public
-
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
